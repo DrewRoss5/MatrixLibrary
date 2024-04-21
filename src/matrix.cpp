@@ -178,6 +178,11 @@ Matrix Matrix::operator*(Matrix &mat){
   return multiply(mat);
 }
 
+std::ostream& operator<<(std::ostream &out, Matrix &mat){
+  mat.display(out);
+  return out;
+}
+
 // simple operators
 void Matrix::operator+=(double x){add(x);}
 void Matrix::operator-=(double x){sub(x);}

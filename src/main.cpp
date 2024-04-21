@@ -22,12 +22,7 @@ int main(int argc, char** argv){
     cout << "M3:" << endl;
     m3.display(cout);
     // display the results of opperations
-    Matrix tmp(1, 1);
-    tmp = m1 + m3;
-    cout << "M1 + M3:\n";
-    tmp.display(cout);
+    cout << "M1 + M3:\n" << m1 + m3 << std::endl;
     // multiplication 
-    tmp = m1.multiply(m2);
-    cout << "M1 * M2:" << endl;
-    tmp.display(cout);
+    cout << "M1 * M2:\n" << m1 * m2 << std::endl;
 }

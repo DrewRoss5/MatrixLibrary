@@ -29,6 +29,7 @@ class Matrix{
     Matrix operator-(Matrix &mat);
     Matrix operator*(double x);
     Matrix operator*(Matrix &mat);
+    friend std::ostream& operator<<(std::ostream &out, Matrix &mat);
     // getters
     int get_height() {return height_;}
     int get_width() {return width_;}
