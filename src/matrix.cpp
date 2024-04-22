@@ -1,6 +1,3 @@
-#ifndef MatrixLib
-#define MatrixLib
-
 #include <stdexcept>
 #include <iostream>
 #include <vector>
@@ -20,6 +17,16 @@ Matrix::Matrix(int height, int width){
 Matrix::Matrix(std::vector<std::vector<double>> &rows){
   if (set_data(rows) == -1)
     throw std::invalid_argument("All rows must be the same size.");
+}
+
+// generates a square identity matrix of a provided size
+Matrix Matrix::identiyMatrix(int size){
+  Matrix mat = Matrix(size, size);
+  for(int i = 0; i < size; i++){
+    *(mat.at(i, i)) = 1;
+  }
+  return mat;
+
 }
 
 // multiplies a column by a provided row (represented as a vector of doubles) and returns the sum
@@ -178,6 +185,19 @@ Matrix Matrix::operator*(Matrix &mat){
   return multiply(mat);
 }
 
+// returns if two matrices are equal to eachother (that is, they are the same size and each value is the same)
+bool Matrix::operator==(Matrix &mat){
+  // validate that the sizes are the same
+  if (height_ != mat.get_height() || width_ != mat.get_width())
+    return false;
+  for (int i = 0; i < height_; i++){
+    for (int j = 0; j < width_; j++) {
+      if (rows_[i][j] != *(mat.at(i, j)))
+        return false;
+    }
+  }
+}
+
 std::ostream& operator<<(std::ostream &out, Matrix &mat){
   mat.display(out);
   return out;
@@ -187,5 +207,3 @@ std::ostream& operator<<(std::ostream &out, Matrix &mat){
 void Matrix::operator+=(double x){add(x);}
 void Matrix::operator-=(double x){sub(x);}
 void Matrix::operator*=(double x){multiply(x);}
-
-#endif

@@ -22,7 +22,10 @@ int main(int argc, char** argv){
     cout << "M3:" << endl;
     m3.display(cout);
     // display the results of opperations
-    cout << "M1 + M3:\n" << m1 + m3 << std::endl;
+    cout << "M1 + M3:\n" << m1 + m3 << endl;
     // multiplication 
-    cout << "M1 * M2:\n" << m1 * m2 << std::endl;
+    cout << "M1 * M2:\n" << m1 * m2 << endl;
+    // identity matrix
+    cout << "50x50 Identity Matrix:\n" << Matrix::identiyMatrix(50) << endl;
+
 }
