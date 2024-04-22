@@ -23,7 +23,7 @@ Matrix::Matrix(std::vector<std::vector<double>> &rows){
 Matrix Matrix::identiyMatrix(int size){
   Matrix mat = Matrix(size, size);
   for(int i = 0; i < size; i++){
-    *(mat.at(i, i)) = 1;
+    *(mat(i, i)) = 1;
   }
   return mat;
 
@@ -71,7 +71,7 @@ int Matrix::add(Matrix &mat){
   // add each number in the two matrices  
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < width_; j++)
-      rows_[i][j] += *(mat.at(i, j));
+      rows_[i][j] += *(mat(i, j));
   }
   return 0;
 }
@@ -92,7 +92,7 @@ int Matrix::sub(Matrix &mat){
   // add each number in the two matrices  
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < width_; j++)
-      rows_[i][j] += *(mat.at(i, j));
+      rows_[i][j] += *(mat(i, j));
   }
   return 0;
 }
@@ -116,9 +116,31 @@ Matrix Matrix::multiply(Matrix &mat){
   // perform the multiplication
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < mat.get_width(); j++)
-      *(product.at(i, j)) = mat.multiply_col(j, rows_[i]);
+      *(product(i, j)) = mat.multiply_col(j, rows_[i]);
   }
   return product;
+}
+
+// switches two rows in the matrix, throwing an error either is out of bounds
+void Matrix::switch_row(int row1, int row2){
+  if (row1 < 0 || row2 < 0 || row1 >= height_ || row2 >= height_)
+    throw std::invalid_argument("Provided row(s) are out of bounds");
+  std::vector<double> tmp = rows_[row1];
+  rows_[row1] = rows_[row2];
+  rows_[row2] = tmp;
+
+}
+
+// switches two columns in the matrix, throwing an error either is out of bounds
+void Matrix::switch_col(int col1, int col2){
+    if (col1 < 0 || col2 < 0 || col1 >= width_ || col2 >= width_)
+      throw std::invalid_argument("Provided columns(s) are out of bounds");
+    double tmp;
+    for(int i = 0; i < height_; i++){
+      tmp = rows_[i][col1];
+      rows_[i][col1] = rows_[i][col2];
+      rows_[i][col2] = tmp;
+    }
 }
 
 // writes the matrix to an ostream, with each row seperated by a newline
@@ -192,7 +214,7 @@ bool Matrix::operator==(Matrix &mat){
     return false;
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < width_; j++) {
-      if (rows_[i][j] != *(mat.at(i, j)))
+      if (rows_[i][j] != *(mat(i, j)))
         return false;
     }
   }
@@ -207,3 +229,4 @@ std::ostream& operator<<(std::ostream &out, Matrix &mat){
 void Matrix::operator+=(double x){add(x);}
 void Matrix::operator-=(double x){sub(x);}
 void Matrix::operator*=(double x){multiply(x);}
+double* Matrix::operator()(int row, int column){return at(row, column);}

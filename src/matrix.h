@@ -21,6 +21,8 @@ class Matrix{
     int sub(Matrix &mat);
     void multiply(double x);
     Matrix multiply(Matrix &mat);
+    void switch_row(int row1, int row2);
+    void switch_col(int col1, int col2);
     void display(std::ostream &out);
     void operator+=(double x);
     void operator+=(Matrix &mat);
@@ -34,6 +36,7 @@ class Matrix{
     Matrix operator*(double x);
     Matrix operator*(Matrix &mat);
     bool operator==(Matrix &mat);
+    double* operator()(int row, int col);
     friend std::ostream& operator<<(std::ostream &out, Matrix &mat);
     // getters
     int get_height() {return height_;}
