@@ -14,7 +14,7 @@ Matrix::Matrix(int height, int width){
     rows_.push_back(zeroes);
 }
 
-Matrix::Matrix(std::vector<std::vector<double>> &rows){
+Matrix::Matrix(const std::vector<std::vector<double>> &rows){
   if (set_data(rows) == -1)
     throw std::invalid_argument("All rows must be the same size.");
 }
@@ -30,7 +30,7 @@ Matrix Matrix::identiyMatrix(int size){
 }
 
 // multiplies a column by a provided row (represented as a vector of doubles) and returns the sum
-double Matrix::multiply_col(int col, std::vector<double> &row){
+double Matrix::multiply_col(int col, std::vector<double> row) const{
   int sum = 0;
   for (int i = 0; i < height_; i++){
     sum += rows_[i][col] * row[i];
@@ -39,7 +39,7 @@ double Matrix::multiply_col(int col, std::vector<double> &row){
 }
 
 // sets the data for the matrix and ensures all rows are of the same size, returns 0 if they are, if they aren't returns -1 and doesn't update the matrix
-int Matrix::set_data(std::vector<std::vector<double>> &rows){
+int Matrix::set_data(const std::vector<std::vector<double>> &rows){
   // get the number of rows and width of the first row
   int height = rows.size();
   int width = rows[0].size();
@@ -106,7 +106,7 @@ void Matrix::multiply(double x){
 }
 
 // multiplies this matrix by another, raises an error if the matrices cannot be multiplied
-Matrix Matrix::multiply(Matrix &mat){
+Matrix Matrix::multiply(const Matrix &mat) const{
   // ensure the matrices are the correct size to multiplied
   if (width_ != mat.get_height()){
     throw std::invalid_argument("Matrices are not the correct size for multiplication");
@@ -116,7 +116,7 @@ Matrix Matrix::multiply(Matrix &mat){
   // perform the multiplication
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < mat.get_width(); j++)
-      *(product(i, j)) = mat.multiply_col(j, rows_[i]);
+      *(product(i, j)) = mat.multiply_col(j,  rows_[i]);
   }
   return product;
 }
@@ -144,7 +144,7 @@ void Matrix::switch_col(int col1, int col2){
 }
 
 // writes the matrix to an ostream, with each row seperated by a newline
-void Matrix::display(std::ostream& out){
+void Matrix::display(std::ostream& out) const{
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < width_; j++)
       out << rows_[i][j] << ", ";
@@ -167,21 +167,21 @@ void Matrix::operator-=(Matrix &mat){
 }
 
 // returns a new matrix with the provided matrix added to this one
-Matrix Matrix::operator+(Matrix &mat){
+Matrix Matrix::operator+(Matrix &const mat) const{
   Matrix tmp(rows_);
   tmp += mat;
   return tmp;
 }
 
 // returns a new matrix with the provided matrix subtracted from this one
-Matrix Matrix::operator-(Matrix &mat){
+Matrix Matrix::operator-(Matrix &mat) const{
   Matrix tmp(rows_);
   tmp -= mat;
   return tmp;
 }
 
 // returns a new matrix with the provided double added to it
-Matrix Matrix::operator+(double x){
+Matrix Matrix::operator+(double x) const{
   Matrix tmp = Matrix(width_, height_);
   tmp.set_data(rows_);
   tmp += x;
@@ -189,38 +189,38 @@ Matrix Matrix::operator+(double x){
 }
 
 // returns a new matrix with the provided double subtracted from it
-Matrix Matrix::operator-(double x){
+Matrix Matrix::operator-(double x) const{
   Matrix tmp = Matrix(rows_);
   tmp -= x;
   return tmp;
 }
 
 // returns a new matrix with each element multiplied by the provided double
-Matrix Matrix::operator*(double x){
+Matrix Matrix::operator*(double x) const{
   Matrix tmp = Matrix(rows_);
   tmp *= x;
   return tmp;
 }
 
 // returns the result of multiplying this matrix by another
-Matrix Matrix::operator*(Matrix &mat){
+Matrix Matrix::operator*(const Matrix &mat) const{
   return multiply(mat);
 }
 
 // returns if two matrices are equal to eachother (that is, they are the same size and each value is the same)
-bool Matrix::operator==(Matrix &mat){
+bool Matrix::operator==(const Matrix &mat) const{
   // validate that the sizes are the same
   if (height_ != mat.get_height() || width_ != mat.get_width())
     return false;
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < width_; j++) {
-      if (rows_[i][j] != *(mat(i, j)))
+      if (rows_[i][j] != mat.get_val(i, j))
         return false;
     }
   }
 }
 
-std::ostream& operator<<(std::ostream &out, Matrix &mat){
+std::ostream& operator<<(std::ostream &out, const Matrix &mat){
   mat.display(out);
   return out;
 }
@@ -230,3 +230,10 @@ void Matrix::operator+=(double x){add(x);}
 void Matrix::operator-=(double x){sub(x);}
 void Matrix::operator*=(double x){multiply(x);}
 double* Matrix::operator()(int row, int column){return at(row, column);}
+
+// getter 
+double Matrix::get_val(int row, int col) const{
+  if (row >= height_ || col >= width_ || col < 0 || row < 0)
+    throw std::invalid_argument("Invalid element index");
+  return rows_[row][col];
+}
