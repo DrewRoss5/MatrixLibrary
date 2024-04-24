@@ -16,9 +16,6 @@ include(GoogleTest)
 # add the library
 add_library(matrixlib ${SOURCE_DIR}matrix.cpp ${SOURCE_DIR}matrix.h)
 
-# THIS IS VERY TEMPORARY
-add_executable(matrix ${SOURCE_DIR}main.cpp ${SOURCE_DIR}matrix.h ${SOURCE_DIR}matrix.cpp)
-
 # add the test exectuable
-#add_executable(matrix_test ${TEST_DIR}matrix_test.cpp ${CMAKE_SOURCE_DIR}matrix.h ${CMAKE_SOURCE_DIR}matrix.cpp)
-#target_link_libraries(matrix_test PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+add_executable(matrix_test ${TEST_DIR}matrix_test.cpp ${SOURCE_DIR}matrix.h ${SOURCE_DIR}matrix.cpp)
+target_link_libraries(matrix_test PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
