@@ -92,7 +92,7 @@ int Matrix::sub(Matrix &mat){
   // add each number in the two matrices  
   for (int i = 0; i < height_; i++){
     for (int j = 0; j < width_; j++)
-      rows_[i][j] += *(mat(i, j));
+      rows_[i][j] -= *(mat(i, j));
   }
   return 0;
 }
