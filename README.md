@@ -1,9 +1,5 @@
 # MatrixLibrary
 A Matrix Library written in C++
-## Roadmap/ToDo:
-  #### Inverses
-  - Add a function to calculate the inverse of a matrix (when possible)
-
 
 ## API 
 ### The Matrix Class:
