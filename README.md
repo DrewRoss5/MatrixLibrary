@@ -3,8 +3,6 @@ A Matrix Library written in C++
 ## Roadmap/ToDo:
   #### Inverses
   - Add a function to calculate the inverse of a matrix (when possible)
-  - Add a function to determine if two matrices are inverses
-  - Add a function to determine if a matrix is an identity matrix
 
 
 ## API 
