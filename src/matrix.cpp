@@ -78,12 +78,7 @@ int Matrix::add(Matrix &mat){
 }
 
 // subtracts a double from each value in the matrix
-void Matrix::sub(double x){
-  for (int i = 0; i < height_; i++){
-    for (int j = 0; j < width_; j++)
-      rows_[i][j] -= x;
-  }
-}
+void Matrix::sub(double x){add(x * -1);}
 
 // subtracts a matrix from this matrix, returns -1 if the matrices cannot be subtracted
 int Matrix::sub(Matrix &mat){
