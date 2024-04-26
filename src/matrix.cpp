@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "matrix.h"
 
 Matrix::Matrix(int height, int width){
@@ -121,6 +122,26 @@ Matrix Matrix::multiply(const Matrix &mat) const{
   return product;
 }
 
+// multiplies each element in a given row by a double, raises an error if the row is out of bounds
+void Matrix::multiply_row(int row, double x){
+  // ensure the row is in bounds
+  if (row >= height_ || row < 0)
+    throw std::out_of_range("Row index out of range");
+  // multiply each element by x
+  for (int i = 0; i < width_; i++)
+    rows_[row][i] *= x;
+}
+
+// adds a doubl to each element in a given row, raises an error if the row is out of bounds
+void Matrix::add_row(int row, double x){
+  // ensure the row is in bounds
+  if (row >= height_ || row < 0)
+    throw std::out_of_range("Row index out of range");
+  // add x to each element in the row
+  for (int i = 0; i < width_; i++)
+    rows_[row][i] += x;
+}
+
 // switches two rows in the matrix, throwing an error either is out of bounds
 void Matrix::switch_row(int row1, int row2){
   if (row1 < 0 || row2 < 0 || row1 >= height_ || row2 >= height_)
@@ -141,6 +162,36 @@ void Matrix::switch_col(int col1, int col2){
       rows_[i][col1] = rows_[i][col2];
       rows_[i][col2] = tmp;
     }
+}
+
+// returns true if the Matrix is an identity matrix, otherwise, false
+bool Matrix::is_identity() const{
+  // ensure the matrix is square 
+  if (width_ != height_)
+    return false;
+  // ensure that the ith element, and only the ith element of each row is 1
+  for (int i = 0; i < height_; i++){
+    // ensure the ith element is 1
+    if (rows_[i][i] != 1)
+      return false;
+    // ensure all other elements are 0
+    for (int j = 0; j < width_; j++){
+      if (rows_[i][j] != 0 && j != i)
+        return false;
+    }
+  }
+  return true;
+}
+
+// returns true if this matrix is and inverse of the provided matrix, otherwise, false
+bool Matrix::is_inverse(const Matrix &mat) const{
+  // ensure both matrices are square 
+  if (width_ != height_ || mat.get_width() != width_ || mat.get_height() != height_)
+    return false;
+  // ensure the matrices multiply to identiy matrices
+  Matrix product1 = multiply(mat);
+  Matrix product2 = mat * *this;
+  return product1.is_identity() && product2.is_identity();
 }
 
 // writes the matrix to an ostream, with each row seperated by a newline

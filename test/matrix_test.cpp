@@ -52,6 +52,36 @@ TEST(MatrixArithmeticOperations, Multiplication){
 
 }
 
+// test to ensure that doubles are added to rows correctly
+TEST(MatrixRowOperations, AddRow){
+    std::vector<std::vector<double>> v1 = {{1, 1, 1}, {2, 2, 2}};
+    std::vector<std::vector<double>> v2 = {{0, 1, 2}, {3, 4, 5}};
+    std::vector<std::vector<double>> result1 = {{1, 1, 1}, {3, 3, 3}};
+    std::vector<std::vector<double>> result2 = {{0, 1, 2}, {3.5, 4.5, 5.5}};
+    // ensure values are correctly added to each row
+    Matrix m1(v1);
+    Matrix m2(v2);
+    m1.add_row(1, 1);
+    m2.add_row(1, 0.5);
+    EXPECT_EQ(m1, Matrix(result1));
+    EXPECT_EQ(m2, Matrix(result2));    
+
+}
+
+// test to ensure that rows are correctly multiplied by doubles
+TEST(MatrixRowOpperations, MultiplyRow){
+    std::vector<std::vector<double>> v1 = {{1, 2, 3}, {4, 5, 6}};
+    std::vector<std::vector<double>> v2 = {{10, 15, 20}, {25, 30, 35}};
+    std::vector<std::vector<double>> result1 = {{2, 4, 6}, {4, 5, 6}};
+    std::vector<std::vector<double>> result2 = {{0, 0, 0}, {25, 30, 35}};
+    Matrix m1(v1);
+    Matrix m2(v2);
+    m1.multiply_row(0, 2);
+    m2.multiply_row(0, 0);
+    EXPECT_EQ(m1, Matrix(result1));
+    EXPECT_EQ(m2, Matrix(result2));
+} 
+
 // test to ensure rows switch properly
 TEST(OtherMatrixOperations, SwitchRows){
     std::vector<std::vector<double>> v1 = {{1, 1, 1}, {2, 2, 2}, {3, 3, 3}};
@@ -69,6 +99,31 @@ TEST(OtherMatrixOperations, SwitchColumns){
     Matrix m1(v1);
     m1.switch_col(1, 2);
     EXPECT_EQ(m1, Matrix(result1));
+}
+
+// test to ensure identity matrices are detected properly
+TEST(OtherMatrixOperations, VerifyIdentiyMatrices){
+    std::vector<std::vector<double>> v1 = {{2, 4, 6}, {8, 10, 12}};
+    std::vector<std::vector<double>> v2  = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    Matrix m1(v1);
+    Matrix m2(v2);
+    Matrix m3 = Matrix::identiyMatrix(3);
+    EXPECT_FALSE(m1.is_identity());
+    EXPECT_TRUE(m2.is_identity());
+    EXPECT_TRUE(m2.is_identity());
+
+}
+
+// test to ensure inverse matrices are detected properly
+TEST(OtherMatrixOperations, VerifyInverseMatrices){
+    std::vector<std::vector<double>> v1 = {{2, 0, -1}, {5, 1, 0}, {0, 1, 3}};
+    std::vector<std::vector<double>> v2  = {{1, 3, 5}, {7, 9, 11}, {13, 15, 17}};
+    std::vector<std::vector<double>> v3 = {{3, -1, 1}, {-15, 6, -5}, {5, -2, 2}};
+    Matrix m1(v1);
+    Matrix m2(v2);
+    Matrix m3(v3);
+    EXPECT_FALSE(m1.is_inverse(m2));
+    EXPECT_TRUE(m1.is_inverse(m3));
 }
 
 int main(int argc, char** argv){
