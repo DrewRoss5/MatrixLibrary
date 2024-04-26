@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-project(MatrixLib VERSION 0.1.0 DESCRIPTION "A simple library for matrix opperations")
+project(MatrixLib VERSION 0.1.1 DESCRIPTION "A simple library for matrix opperations")
 
 # set directory variables 
 set(SOURCE_DIR "src/")
