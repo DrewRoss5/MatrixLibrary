@@ -14,11 +14,11 @@ class Matrix{
     Matrix(int height, int width);
     Matrix(const std::vector<std::vector<double>> &rows);
     static Matrix identiyMatrix(int size);
-    int set_data(const std::vector<std::vector<double>> &rows);
+    void set_data(const std::vector<std::vector<double>> &rows);
     void add(double x);
-    int add(Matrix &mat);
+    void add(Matrix &mat);
     void sub(double x);
-    int sub(Matrix &mat);
+    void sub(Matrix &mat);
     void multiply(double x);
     Matrix multiply(const Matrix &mat) const;
     void Matrix::multiply_row(int row, double x);
