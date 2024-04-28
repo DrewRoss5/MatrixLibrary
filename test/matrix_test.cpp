@@ -101,6 +101,18 @@ TEST(OtherMatrixOperations, SwitchColumns){
     EXPECT_EQ(m1, Matrix(result1));
 }
 
+// test to ensure matrices are transposed properly
+TEST(OtherMatrixOperations, Transpose){
+    std::vector<std::vector<double>> v1 = {{11, 3}, {4, 10}};
+    std::vector<std::vector<double>> v2 = {{10, 15, 16}, {20, 25, 26}};
+    std::vector<std::vector<double>> result1 = {{11, 4}, {3, 10}};
+    std::vector<std::vector<double>> result2 = {{10, 20}, {15, 25}, {16, 26}};
+    Matrix m1(v1);
+    Matrix m2(v2);
+    EXPECT_EQ(m1.transpose(), Matrix(result1));
+    EXPECT_EQ(m2.transpose(), Matrix(result2));
+}
+
 // test to ensure identity matrices are detected properly
 TEST(OtherMatrixOperations, VerifyIdentiyMatrices){
     std::vector<std::vector<double>> v1 = {{2, 4, 6}, {8, 10, 12}};

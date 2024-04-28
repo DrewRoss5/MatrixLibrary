@@ -25,6 +25,7 @@ class Matrix{
     void Matrix::add_row(int row, double x);
     void switch_row(int row1, int row2);
     void switch_col(int col1, int col2);
+    Matrix transpose();
     bool is_identity() const;
     bool is_inverse(const Matrix &mat) const;
     void display(std::ostream &out) const;

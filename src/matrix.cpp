@@ -153,6 +153,17 @@ void Matrix::switch_col(int col1, int col2){
     }
 }
 
+Matrix Matrix::transpose(){
+  // create a matrix to return as the transposed matrix
+  Matrix result(width_, height_);
+  // place each element in the transposed matrix
+  for (int i = 0; i < height_; i++){
+    for(int j = 0; j < width_; j++)
+      *(result(j, i)) = rows_[i][j];
+  }
+  return result;
+}
+
 // returns true if the Matrix is an identity matrix, otherwise, false
 bool Matrix::is_identity() const{
   // ensure the matrix is square 
