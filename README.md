@@ -1,9 +1,6 @@
 # MatrixLibrary
 A Matrix Library written in C++
 
-## Roadmap/ToDo
-- Add matrix transposition
-
 ## API 
 ### The Matrix Class:
 The Matrix class represents a two-dimensional matrix of any size. Matrices use zero-based indexing. 
@@ -40,6 +37,9 @@ The Matrix class represents a two-dimensional matrix of any size. Matrices use z
 
 `void switch_col(int col1, int col2)`<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Switches all of the elements in the column of index `col1` with those in the column of index `col2`. Raises an error if either parameter is out of bounds.
+
+`Matrix transpose()`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Transposes the matrix and returns the result.
 
 `void display(ostream &out)`<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Writes the contents of the matrix to `out` with each column seperated with a comma, and each row seperated with a new line. Can also be called with the `<<` operator.
